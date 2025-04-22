@@ -1,20 +1,17 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/20 13:14:41 by eros-gir          #+#    #+#             */
-/*   Updated: 2025/04/20 13:18:08 by eros-gir         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+// Comentario fuera del programa
 
-#include<stdio.h>
+#include <stdio.h>
 
-int	main(void)
+void print_code(void) 
 {
-	printf("Hello, World!\n");
-	
-	return 0;
+    char *src = "// Comentario fuera del programa%c%c#include <stdio.h>%c%cvoid print_code(void) %c{%c    char *src = %c%s%c;%c    printf(src, 10, 10, 10, 10, 10, 10, 34, src, 34, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10);%c}%c%cint main(void) %c{%c    // Comentario dentro del main%c    print_code();%c    return 0;%c}%c";
+    printf(src, 10, 10, 10, 10, 10, 10, 34, src, 34, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10);
+}
+
+int main(void) 
+{
+
+	// Comentario dentro del main
+    print_code();
+    return 0;
 }
