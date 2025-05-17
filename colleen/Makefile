@@ -1,5 +1,5 @@
 NAME = Colleen
-SRC = main.c
+SRC = colleen.c
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
