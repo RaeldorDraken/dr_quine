@@ -1,37 +1,49 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 
-#define VALUE 5
+#define I 5
 
-int main() 
-{
-    int i = VALUE;
-    if (__FILE__[6] != '\0') i--; // Detectar si no es Sully.c
+#define CODE "#include <stdio.h>\\n"\
+"#include <stdlib.h>\\n\\n"\
+"#define I %d\\n\\n"\
+"#define CODE %c%s%c\\n\\n"\
+"int main(void) {\\n"\
+"    if (I <= 0) return 0;\\n\\n"\
+"    char fname[20];\\n"\
+"    sprintf(fname, \\\"Sully_%%d.c\\\", I - 1);\\n\\n"\
+"    FILE *f = fopen(fname, \\\"w\\\");\\n"\
+"    if (!f) return 1;\\n\\n"\
+"    fprintf(f, CODE, I - 1, 34, CODE, 34);\\n"\
+"    fclose(f);\\n\\n"\
+"    char compile[100];\\n"\
+"    sprintf(compile, \\\"clang -Wall -Wextra -Werror -o Sully_%%d Sully_%%d.c\\\", I - 1, I - 1);\\n"\
+"    system(compile);\\n\\n"\
+"    char exec[20];\\n"\
+"    sprintf(exec, \\\"./Sully_%%d\\\", I - 1);\\n"\
+"    system(exec);\\n\\n"\
+"    return 0;\\n"\
+"}\\n"
 
-    if (i < 0)
+int main(void) {
+    if (I <= 0)
         return 0;
 
-    char filename[20], execname[20];
-    sprintf(filename, "Sully_%d.c", i);
-    FILE *f = fopen(filename, "w");
+    char fname[20];
+    sprintf(fname, "Sully_%d.c", I - 1);
+
+    FILE *f = fopen(fname, "w");
     if (!f) return 1;
 
-    char *code = "/* Código de Sully */\n#include <stdio.h>\n#include <stdlib.h>\n#include <unistd.h>\n\n#define VALUE %d\n\nint main() {\n    int i = VALUE;\n    if (__FILE__[6] != '\\0') i--;\n    if (i < 0) return 0;\n    char filename[20], execname[20];\n    sprintf(filename, \"Sully_%%d.c\", i);\n    FILE *f = fopen(filename, \"w\");\n    if (!f) return 1;\n    char *code = %c%s%c;\n    fprintf(f, code, i, 34, code, 34);\n    fclose(f);\n    sprintf(execname, \"Sully_%%d\", i);\n    char compile[50];\n    sprintf(compile, \"cc %%s -o %%s\", filename, execname);\n    system(compile);\n    if (i > 0) {\n        char run[30];\n        sprintf(run, \"./%%s\", execname);\n        system(run);\n    }\n    return 0;\n}\n";
-    fprintf(f, code, i, 34, code, 34);
+    fprintf(f, CODE, I - 1, 34, CODE, 34);
     fclose(f);
 
-    sprintf(execname, "Sully_%d", i);
-    char compile[50];
-    sprintf(compile, "cc %s -o %s", filename, execname);
+    char compile[100];
+    sprintf(compile, "clang -Wall -Wextra -Werror -o Sully_%d Sully_%d.c", I - 1, I - 1);
     system(compile);
 
-    if (i > 0) 
-{
-        char run[30];
-        sprintf(run, "./%s", execname);
-        system(run);
-    }
+    char exec[20];
+    sprintf(exec, "./Sully_%d", I - 1);
+    system(exec);
 
     return 0;
 }
