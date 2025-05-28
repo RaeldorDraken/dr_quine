@@ -35,7 +35,7 @@ int main(void) {
 "    char *code = %c%s%c;%c"
 "    fprintf(f, code, 10, 10, 10, 10, i - 1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 34, 34, 10, 34, 34, 10, 10, 34, 34, 10, 10, 10, 34, code, 34, 10, 10, 10, 10, 10, 34, 34, 10, 10, 10, 10, 10, 34, 34, 10, 10, 10, 10, 10);%c"
 "    fclose(f);%c%c"
-"    char cmd[128];%c"
+"    char cmd[256];%c"
 "    snprintf(cmd, sizeof(cmd), %ccc -Wall -Wextra -Werror %%s -o %%s%c, filename, execname);%c"
 "    system(cmd);%c%c"
 "    if (i > 1) {%c"
@@ -49,7 +49,7 @@ int main(void) {
     fprintf(f, code, 10, 10, 10, 10, i - 1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 34, 34, 10, 34, 34, 10, 10, 34, 34, 10, 10, 10, 34, code, 34, 10, 10, 10, 10, 10, 34, 34, 10, 10, 10, 10, 10, 34, 34, 10, 10, 10, 10, 10);
     fclose(f);
 
-    char cmd[128];
+    char cmd[256];
     snprintf(cmd, sizeof(cmd), "gcc -Wall -Wextra -Werror %s -o %s", filename, execname);
     printf("Compilando con: %s\n", cmd);
     printf("Ejecutando: %s\n", execname);
