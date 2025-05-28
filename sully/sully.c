@@ -1,33 +1,59 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
 
 #define I 5
 
 int main(void) {
-    if (I <= 0)
+    int i = I;
+    if (i <= 0)
         return 0;
 
     char filename[64];
     char execname[64];
-    sprintf(filename, "sully_%d.c", I - 1);
-    sprintf(execname, "Sully_%d", I - 1);
+    snprintf(filename, sizeof(filename), "sully_%d.c", i - 1);
+    snprintf(execname, sizeof(execname), "sully_%d", i - 1);
 
     FILE *f = fopen(filename, "w");
     if (!f) return 1;
 
-    char *code = "#include <stdio.h>%c#include <stdlib.h>%c#include <string.h>%c#include <unistd.h>%c%c#define I %d%c%cint main(void) {%c    if (I <= 0)%c        return 0;%c%c    char filename[64];%c    char execname[64];%c    sprintf(filename, %csully_%%d.c%c, I - 1);%c    sprintf(execname, %cSully_%%d%c, I - 1);%c%c    FILE *f = fopen(filename, %cw%c);%c    if (!f) return 1;%c%c    char *code = %c%s%c;%c    fprintf(f, code, 10,10,10,10,10,I-1,10,10,10,10,10,10,10,34,34,10,34,34,10,10,34,34,10,10,34,code,34,10);%c    fclose(f);%c%c    char cmd[128];%c    sprintf(cmd, %ccc -Wall -Wextra -Werror %%s -o %%s%c, filename, execname);%c    system(cmd);%c    if (I > 1)%c        execl(execname, execname, NULL);%c    return 0;%c}%c";
-    fprintf(f, code, 10,10,10,10,10,I-1,10,10,10,10,10,10,10,34,34,10,34,34,10,10,34,34,10,10,34,code,34,10);
+    char *code =
+"#include <stdio.h>%c"
+"#include <stdlib.h>%c"
+"#include <unistd.h>%c%c"
+"#define I %d%c%c"
+"int main(void) {%c"
+"    int i = I;%c"
+"    if (i <= 0)%c"
+"        return 0;%c%c"
+"    char filename[64];%c"
+"    char execname[64];%c"
+"    snprintf(filename, sizeof(filename), %csully_%%d.c%c, i - 1);%c"
+"    snprintf(execname, sizeof(execname), %csully_%%d%c, i - 1);%c%c"
+"    FILE *f = fopen(filename, %cw%c);%c"
+"    if (!f) return 1;%c%c"
+"    char *code = %c%s%c;%c"
+"    fprintf(f, code, 10, 10, 10, 10, i - 1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 34, 34, 10, 34, 34, 10, 10, 34, 34, 10, 10, 10, 34, code, 34, 10, 10, 10, 10, 10, 34, 34, 10, 10, 10, 10, 10, 34, 34, 10, 10, 10, 10, 10);%c"
+"    fclose(f);%c%c"
+"    char cmd[128];%c"
+"    snprintf(cmd, sizeof(cmd), %ccc -Wall -Wextra -Werror %%s -o %%s%c, filename, execname);%c"
+"    system(cmd);%c%c"
+"    if (i > 1) {%c"
+"        char execpath[70];%c"
+"        snprintf(execpath, sizeof(execpath), %c./%%s%c, execname);%c"
+"        execl(execpath, execname, NULL);%c"
+"    }%c"
+"    return 0;%c"
+"}%c";
 
+    fprintf(f, code, 10, 10, 10, 10, i - 1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 34, 34, 10, 34, 34, 10, 10, 34, 34, 10, 10, 10, 34, code, 34, 10, 10, 10, 10, 10, 34, 34, 10, 10, 10, 10, 10, 34, 34, 10, 10, 10, 10, 10);
     fclose(f);
 
     char cmd[128];
-    sprintf(cmd, "gcc -Wall -Wextra -Werror %s -o %s", filename, execname);
+    snprintf(cmd, sizeof(cmd), "cc -Wall -Wextra -Werror %s -o %s", filename, execname);
     system(cmd);
 
-    if (I > 1)
-    {
+    if (i > 1) {
         char execpath[70];
         snprintf(execpath, sizeof(execpath), "./%s", execname);
         execl(execpath, execname, NULL);
