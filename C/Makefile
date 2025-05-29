@@ -34,6 +34,22 @@ $(NAME_GRACE): $(SRC_GRACE)
 $(NAME_SULLY): $(SRC_SULLY)
 	$(CC) $(CFLAGS) -o $@ $<
 
+	# Run all
+run: run_colleen run_grace run_sully
+
+# Individual runs
+run_colleen: $(NAME_COLLEEN)
+	@echo "=== Running Colleen ==="
+	./$(NAME_COLLEEN)
+
+run_grace: $(NAME_GRACE)
+	@echo "=== Running Grace ==="
+	./$(NAME_GRACE)
+
+run_sully: $(NAME_SULLY)
+	@echo "=== Running Sully ==="
+	./$(NAME_SULLY)
+
 clean:
 	@echo "Cleaning generated source files and executables..."
 	@rm -f Grace_kid.c
@@ -45,4 +61,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re run run_colleen run_grace run_sully
