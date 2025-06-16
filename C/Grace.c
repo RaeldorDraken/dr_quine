@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define FILENAME "grace_kid.c"
+#define FILENAME "Grace_kid.c"
 #define GRACE_COMMENT "/* Comentario obligatorio */"
 #define GRACE() \
 int main(void) { \
@@ -8,7 +8,7 @@ int main(void) { \
     if (!f) return (1); \
     fputs(GRACE_COMMENT, f); \
     char *code = "%c#include <stdio.h>%c" \
-    "#define FILENAME %cgrace_kid.c%c%c" \
+    "#define FILENAME %cGrace_kid.c%c%c" \
     "#define GRACE_COMMENT %c/* Comentario obligatorio */%c%c" \
     "#define GRACE() %c%c" \
     "int main(void) { %c%c" \

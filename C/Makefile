@@ -14,9 +14,9 @@ NAME_COLLEEN = Colleen
 NAME_GRACE   = Grace
 NAME_SULLY   = Sully
 
-SRC_COLLEEN = colleen.c
-SRC_GRACE   = grace.c
-SRC_SULLY   = sully.c
+SRC_COLLEEN = Colleen.c
+SRC_GRACE   = Grace.c
+SRC_SULLY   = Sully.c
 
 CFLAGS = -Wall -Wextra -Werror
 CC = cc
@@ -53,7 +53,7 @@ run_sully: $(NAME_SULLY)
 clean:
 	@echo "Cleaning generated source files and executables..."
 	@rm -f Grace_kid.c
-	@rm -f sully_*.c Sully_[0-9] Sully_[0-9][0-9]
+	@rm -f Sully_*.c Sully_[0-9] Sully_[0-9][0-9]
 
 fclean: clean
 	@echo "Cleaning compiled binaries..."
