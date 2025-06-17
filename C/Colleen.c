@@ -10,8 +10,7 @@ void print_code(void)
 
 int main(void) 
 {
-
-	// Comentario dentro del main
+    // Comentario dentro del main
     print_code();
     return 0;
 }
